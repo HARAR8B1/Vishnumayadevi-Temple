@@ -36,6 +36,7 @@ export default function AdminLayout() {
     { name: "Temple Info", path: "/admin/dashboard/temple-info", icon: "🕉️" },
     { name: "Donation Config", path: "/admin/dashboard/donation", icon: "💰" },
     { name: "Contact Forms", path: "/admin/dashboard/contacts", icon: "✉️" },
+    { name: "Receipts", path: "/admin/dashboard/receipts", icon: "🧾" },
   ];
 
   const handleLogout = () => {

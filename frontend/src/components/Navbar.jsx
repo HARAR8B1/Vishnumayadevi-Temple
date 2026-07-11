@@ -31,6 +31,7 @@ export default function Navbar() {
     { label: t.nav.history, href: "#history" },
     { label: t.nav.donation, href: "#donation" },
     { label: t.nav.contact, href: "#contact" },
+    { label: "YouTube", href: "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq", external: true },
   ];
 
   const handleNavClick = (e, href) => {
@@ -74,7 +75,9 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
+                onClick={link.external ? undefined : (e) => handleNavClick(e, link.href)}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
                 className="relative px-3 py-2 text-xs font-medium text-cream/80 hover:text-saffron transition-colors duration-300 group whitespace-nowrap"
               >
                 {link.label}
@@ -133,7 +136,9 @@ export default function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
+              onClick={link.external ? undefined : (e) => handleNavClick(e, link.href)}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noopener noreferrer" : undefined}
               className="px-3 py-3 text-sm text-cream/80 hover:text-saffron hover:bg-saffron/5 rounded-xl transition-all duration-200 font-medium"
             >
               {link.label}

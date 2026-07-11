@@ -12,6 +12,7 @@ import AdminEvents from './components/admin/AdminEvents.jsx'
 import AdminTempleInfo from './components/admin/AdminTempleInfo.jsx'
 import AdminDonation from './components/admin/AdminDonation.jsx'
 import AdminContacts from './components/admin/AdminContacts.jsx'
+import AdminReceipt from './components/admin/AdminReceipt.jsx'
 import { LanguageProvider } from './context/LanguageContext'
 
 const queryClient = new QueryClient()
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="temple-info" element={<AdminTempleInfo />} />
               <Route path="donation" element={<AdminDonation />} />
               <Route path="contacts" element={<AdminContacts />} />
+              <Route path="receipts" element={<AdminReceipt />} />
             </Route>
           </Routes>
         </BrowserRouter>
