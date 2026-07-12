@@ -9,6 +9,8 @@ export default function AdminEvents() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState("");
 
   const [newEvent, setNewEvent] = useState({
     titleEN: "",
@@ -23,6 +25,19 @@ export default function AdminEvents() {
   useEffect(() => {
     fetchEvents();
   }, []);
+
+  const handleAutoTranslate = async (text, targetField) => {
+    if (!text) return;
+    try {
+      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ta&dt=t&q=${encodeURIComponent(text)}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const translatedText = data[0].map(item => item[0]).join('');
+      setNewEvent(prev => ({ ...prev, [targetField]: translatedText }));
+    } catch (error) {
+      console.error("Auto-translate failed:", error);
+    }
+  };
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -44,8 +59,10 @@ export default function AdminEvents() {
         date: { en: newEvent.dateEN, ta: newEvent.dateTA },
         description: { en: newEvent.descEN, ta: newEvent.descTA },
         type: newEvent.type,
-      });
+      }, imageFile);
       setIsAdding(false);
+      setImageFile(null);
+      setPreviewUrl("");
       setNewEvent({ titleEN: "", titleTA: "", dateEN: "", dateTA: "", descEN: "", descTA: "", type: "festival" });
       fetchEvents();
     } catch (error) {
@@ -77,7 +94,11 @@ export default function AdminEvents() {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-charcoal">Manage Events</h2>
         <button
-          onClick={() => setIsAdding(!isAdding)}
+          onClick={() => {
+            setIsAdding(!isAdding);
+            setImageFile(null);
+            setPreviewUrl("");
+          }}
           className="bg-saffron text-charcoal px-4 py-2 rounded-xl font-bold text-sm hover:bg-saffron-dark transition-colors"
         >
           {isAdding ? "Cancel" : "+ Create Event"}
@@ -102,21 +123,41 @@ export default function AdminEvents() {
               </select>
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-1">Event Image (Optional)</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  setImageFile(file);
+                  if (file) setPreviewUrl(URL.createObjectURL(file));
+                }}
+                className="w-full text-sm text-charcoal file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-saffron file:text-charcoal hover:file:bg-saffron-dark"
+              />
+              {previewUrl && (
+                <div className="mt-2 relative inline-block">
+                  <img src={previewUrl} alt="Preview" className="h-20 w-20 object-cover rounded-lg border border-gray-200" />
+                  <button type="button" onClick={() => { setImageFile(null); setPreviewUrl(""); }} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">x</button>
+                </div>
+              )}
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* English Fields */}
               <div className="space-y-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
                 <h4 className="font-bold text-sm text-charcoal/70 uppercase tracking-wider">English Details</h4>
                 <div>
                   <label className="block text-sm font-medium text-charcoal mb-1">Title</label>
-                  <input required type="text" value={newEvent.titleEN} onChange={(e) => setNewEvent({ ...newEvent, titleEN: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron" />
+                  <input required type="text" value={newEvent.titleEN} onChange={(e) => setNewEvent({ ...newEvent, titleEN: e.target.value })} onBlur={(e) => handleAutoTranslate(e.target.value, 'titleTA')} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-charcoal mb-1">Date String (e.g., "25 July 2026" or "Every Friday")</label>
-                  <input required type="text" value={newEvent.dateEN} onChange={(e) => setNewEvent({ ...newEvent, dateEN: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron" />
+                  <input required type="text" value={newEvent.dateEN} onChange={(e) => setNewEvent({ ...newEvent, dateEN: e.target.value })} onBlur={(e) => handleAutoTranslate(e.target.value, 'dateTA')} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-charcoal mb-1">Description</label>
-                  <textarea required rows={2} value={newEvent.descEN} onChange={(e) => setNewEvent({ ...newEvent, descEN: e.target.value })} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron" />
+                  <textarea required rows={2} value={newEvent.descEN} onChange={(e) => setNewEvent({ ...newEvent, descEN: e.target.value })} onBlur={(e) => handleAutoTranslate(e.target.value, 'descTA')} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron" />
                 </div>
               </div>
 
@@ -162,10 +203,17 @@ export default function AdminEvents() {
             <tbody className="divide-y divide-gray-200">
               {events.map((evt) => (
                 <tr key={evt.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="p-4">
-                    <div className="font-bold text-charcoal text-sm">{evt.title?.en}</div>
-                    <div className="text-charcoal/60 text-xs mt-0.5">{evt.title?.ta}</div>
-                    <div className="text-charcoal/50 text-[11px] line-clamp-1 mt-1">{evt.description?.en}</div>
+                  <td className="p-4 flex items-center gap-3">
+                    {evt.imageUrl ? (
+                      <img src={evt.imageUrl} alt="Event" className="w-12 h-12 rounded-lg object-cover bg-gray-100" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-xl">📅</div>
+                    )}
+                    <div>
+                      <div className="font-bold text-charcoal text-sm">{evt.title?.en}</div>
+                      <div className="text-charcoal/60 text-xs mt-0.5">{evt.title?.ta}</div>
+                      <div className="text-charcoal/50 text-[11px] line-clamp-1 mt-1">{evt.description?.en}</div>
+                    </div>
                   </td>
                   <td className="p-4">
                     <div className="text-charcoal text-sm">{evt.date?.en}</div>

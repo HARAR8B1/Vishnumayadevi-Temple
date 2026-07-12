@@ -1,17 +1,22 @@
 {
   "name": "vishnumayadevi-temple-backend",
-  "version": "1.0.0",
-  "description": "Backend API for Sri Vishnu Maya Devi Amman Temple website",
+  "version": "2.0.0",
+  "description": "Backend API for Sri Vishnu Maya Devi Amman Temple website — PostgreSQL powered",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "seed": "node seed.js",
+    "seed:force": "node seed.js --force",
+    "db:test": "node -e \"require('./db').testConnection().then(()=>console.log('✅ DB OK')).catch(e=>console.error('❌',e.message))\""
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.3",
-    "multer": "^2.2.0"
+    "multer": "^2.2.0",
+    "pg": "^8.16.0"
   }
 }

@@ -1,13 +1,26 @@
 import { useLanguage } from "../context/LanguageContext";
+import { useMainPhotos } from "../hooks/useTemple";
 
 export default function Construction() {
   const { language, t } = useLanguage();
+  const { data: mainPhotos = [] } = useMainPhotos();
 
-  const constructionImages = [
+  // Filter and sort construction photos
+  const dbConstructionPhotos = mainPhotos
+    .filter(photo => photo.section === 'construction')
+    .sort((a, b) => a.sort_order - b.sort_order);
+
+  const defaultConstructionImages = [
     { src: "/images/construction-1.png", alt: "Temple Construction Ritual 1" },
     { src: "/images/construction-2.jpg", alt: "Temple Construction Ritual 2" },
     { src: "/images/construction-3.jpg", alt: "Temple Construction Ritual 3" },
   ];
+
+  // We map over default array length or DB array length, whichever is greater, or just use DB images if they exist.
+  // Actually, we can just use the DB images if there are any. If not, use defaults.
+  const constructionImages = dbConstructionPhotos.length > 0
+    ? dbConstructionPhotos.map(p => ({ src: p.url, alt: p.label || "Temple Construction" }))
+    : defaultConstructionImages;
 
   return (
     <section id="construction" className="py-16 sm:py-20 bg-charcoal">

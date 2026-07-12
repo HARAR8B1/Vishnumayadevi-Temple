@@ -1,0 +1,6 @@
+{
+  "appId": "com.amman.app",
+  "appName": "Amman",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}

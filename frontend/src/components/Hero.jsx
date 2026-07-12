@@ -1,15 +1,22 @@
 import { useLanguage } from "../context/LanguageContext";
+import { useMainPhotos } from "../hooks/useTemple";
 
 export default function Hero() {
   const { t } = useLanguage();
+  const { data: mainPhotos = [] } = useMainPhotos();
 
-  const collageImages = [
-    { src: "/images/collage-1.jpg", alt: "Temple Deity - Flower Offering" },
-    { src: "/images/collage-2.png", alt: "Goddess with Floral Decoration" },
-    { src: "/images/collage-3.jpg", alt: "Temple Sanctum" },
-    { src: "/images/collage-4.jpg", alt: "Festival Deity Procession" },
-    { src: "/images/collage-5.jpg", alt: "Temple Deepam" },
-  ];
+  // Filter and sort hero photos
+  const heroPhotos = mainPhotos
+    .filter(photo => photo.section === 'hero')
+    .sort((a, b) => a.sort_order - b.sort_order);
+
+  // Fallbacks
+  const fallbackPortrait = "/images/hero-custom.jpg";
+
+  // Assign portrait
+  const portraitUrl = heroPhotos.length > 0 ? heroPhotos[0].url : fallbackPortrait;
+  const secondaryUrl = heroPhotos.length > 1 ? heroPhotos[1].url : portraitUrl;
+  const portraitBg = `url('${portraitUrl}')`;
 
   return (
     <section
@@ -19,7 +26,7 @@ export default function Hero() {
       {/* Full-screen blurred hero background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-2xl opacity-20 scale-110"
-        style={{ backgroundImage: "url('/images/hero-custom.jpg')" }}
+        style={{ backgroundImage: portraitBg }}
       />
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-charcoal/60" />
@@ -71,79 +78,30 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Main deity portrait — shown below buttons on all screens */}
-            <div className="mt-6 lg:mt-8 w-full flex justify-center lg:justify-start">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-saffron/30 ring-4 ring-saffron/10 w-36 sm:w-44 lg:w-56">
+            {/* Hero 1 Image - Aligned under text */}
+            <div className="mt-8 lg:mt-12 w-full flex justify-center lg:justify-start">
+              <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-saffron/30 ring-2 ring-saffron/10 w-32 sm:w-40 lg:w-48 aspect-[3/4]">
                 <img
-                  src="/images/hero-custom.jpg"
+                  src={portraitUrl}
                   alt="Sri Vishnu Maya Devi Amman"
-                  className="w-full h-auto object-cover object-top"
-                  style={{ maxHeight: "300px" }}
+                  className="w-full h-full object-cover object-center"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
 
-          {/* ── RIGHT: Collage Grid ── */}
-          <div className="flex-1 w-full">
-            {/* Mobile: 2 columns, Desktop: 3 columns */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3"
-                 style={{ height: "clamp(280px, 50vw, 560px)" }}>
-
-              {/* Image 1 — spans 2 rows on sm+, just 1 row on mobile */}
-              <div className="row-span-1 sm:row-span-2 col-span-1 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group border border-saffron/10">
-                <img
-                  src={collageImages[0].src}
-                  alt={collageImages[0].alt}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-
-              {/* Image 2 */}
-              <div className="col-span-1 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group border border-saffron/10">
-                <img
-                  src={collageImages[1].src}
-                  alt={collageImages[1].alt}
-                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-
-              {/* Image 3 — hidden on mobile, shown on sm+ */}
-              <div className="hidden sm:block col-span-1 relative rounded-2xl overflow-hidden shadow-lg group border border-saffron/10">
-                <img
-                  src={collageImages[2].src}
-                  alt={collageImages[2].alt}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-
-              {/* Image 4 */}
-              <div className="col-span-1 relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg group border border-saffron/10">
-                <img
-                  src={collageImages[3].src}
-                  alt={collageImages[3].alt}
-                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-
-              {/* Image 5 — hidden on mobile, shown on sm+ */}
-              <div className="hidden sm:block col-span-1 relative rounded-2xl overflow-hidden shadow-lg group border border-saffron/10">
-                <img
-                  src={collageImages[4].src}
-                  alt={collageImages[4].alt}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-
+          {/* ── RIGHT: Large Notice Image ── */}
+          <div className="flex-1 w-full flex flex-col items-center justify-center mt-12 lg:mt-0">
+            <div className="relative w-full max-w-lg lg:max-w-2xl rounded-2xl overflow-hidden shadow-2xl border-2 border-saffron/30 ring-4 ring-saffron/10 group bg-charcoal/30 flex justify-center items-center p-2 sm:p-4">
+              <img
+                src={secondaryUrl}
+                alt="Temple Notice"
+                className="w-full h-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh] object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+              />
             </div>
 
-            <p className="text-center text-saffron/50 text-[10px] tracking-widest mt-3 uppercase">
+            <p className="text-center text-saffron/50 text-[10px] tracking-widest mt-6 uppercase">
               ✦ Divine Blessings ✦
             </p>
           </div>

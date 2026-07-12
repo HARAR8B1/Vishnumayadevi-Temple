@@ -7,6 +7,7 @@ export const translations = {
       gallery: "Gallery",
       timings: "Timings",
       events: "Events",
+      committee: "Committee",
       history: "History",
       donation: "Donate",
       contact: "Contact"
@@ -102,6 +103,7 @@ export const translations = {
       gallery: "புகைப்படங்கள்",
       timings: "நேரங்கள்",
       events: "நிகழ்வுகள்",
+      committee: "நிர்வாகக் குழு",
       history: "வரலாறு",
       donation: "நன்கொடை",
       contact: "தொடர்புக்கு"

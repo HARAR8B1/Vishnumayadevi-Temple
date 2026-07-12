@@ -1,7 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { translations } from '../translations';
 
-const LanguageContext = createContext();
+export const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
   // Check local storage for saved language, default to 'en'
@@ -29,6 +29,7 @@ export function LanguageProvider({ children }) {
   );
 }
 
+// Keep backward-compatible export for any files that import from here
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (context === undefined) {

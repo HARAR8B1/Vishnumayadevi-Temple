@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
+import { useTempleInfo } from "../hooks/useTemple";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { data: templeInfo } = useTempleInfo();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { language, toggleLanguage, t } = useLanguage();
   const navigate = useNavigate();
@@ -28,10 +30,10 @@ export default function Navbar() {
     { label: t.nav.gallery, href: "#gallery" },
     { label: t.nav.timings, href: "#timings" },
     { label: t.nav.events, href: "#events" },
+    { label: t.nav.committee, href: "#committee" },
     { label: t.nav.history, href: "#history" },
     { label: t.nav.donation, href: "#donation" },
     { label: t.nav.contact, href: "#contact" },
-    { label: "YouTube", href: "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq", external: true },
   ];
 
   const handleNavClick = (e, href) => {
@@ -91,9 +93,44 @@ export default function Navbar() {
             >
               🌐 {language === "en" ? "தமிழ்" : "English"}
             </button>
+            {/* Virtual Darshan Button */}
+            <button
+              onClick={() => navigate("/virtual-darshan")}
+              className="ml-2 px-3 py-1.5 rounded-full bg-saffron/20 border border-saffron/50 hover:bg-saffron hover:text-charcoal text-saffron transition-all text-xs font-bold flex items-center gap-1"
+            >
+              🕉️ Virtual Darshan
+            </button>
+            {/* Social Icons (Desktop) */}
+            <div className="flex items-center gap-1.5 ml-2">
+              <a
+                href={templeInfo?.youtube || "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq"}
+                target="_blank" rel="noopener noreferrer"
+                className="p-1 rounded-full hover:bg-saffron/10 transition-all text-lg opacity-90 hover:opacity-100"
+                title="YouTube"
+              >
+                ▶️
+              </a>
+              <a
+                href={templeInfo?.facebook || "https://www.facebook.com/profile.php?id=61591645240487&sk=photos"}
+                target="_blank" rel="noopener noreferrer"
+                className="p-1 rounded-full hover:bg-saffron/10 transition-all text-lg opacity-90 hover:opacity-100"
+                title="Facebook"
+              >
+                📘
+              </a>
+              <a
+                href={templeInfo?.instagram || "https://www.instagram.com/vishnumayadeviamman/"}
+                target="_blank" rel="noopener noreferrer"
+                className="p-1 rounded-full hover:bg-saffron/10 transition-all text-lg opacity-90 hover:opacity-100"
+                title="Instagram"
+              >
+                📸
+              </a>
+            </div>
+
             {/* Admin Button */}
             <button
-              onClick={() => navigate("/admin")}
+              onClick={() => window.open("/admin", "_blank", "noopener,noreferrer")}
               className="ml-2 px-3 py-1.5 rounded-full bg-saffron/10 border border-saffron/30 hover:bg-saffron hover:text-charcoal text-saffron transition-all text-xs font-bold flex items-center gap-1"
             >
               🛡️ Admin
@@ -144,13 +181,27 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          {/* Virtual Darshan Link (Mobile) */}
+          <button
+            onClick={() => { setIsMobileOpen(false); navigate("/virtual-darshan"); }}
+            className="mt-2 mx-0 px-3 py-3 text-sm font-bold text-saffron bg-saffron/10 hover:bg-saffron/20 rounded-xl transition-all duration-200 flex items-center gap-2 w-full"
+          >
+            🕉️ Virtual Darshan
+          </button>
           {/* Admin Link (Mobile) */}
           <button
-            onClick={() => { setIsMobileOpen(false); navigate("/admin"); }}
+            onClick={() => { setIsMobileOpen(false); window.open("/admin", "_blank", "noopener,noreferrer"); }}
             className="mt-2 mx-0 px-3 py-3 text-sm font-bold text-saffron bg-saffron/5 hover:bg-saffron/15 rounded-xl transition-all duration-200 flex items-center gap-2 w-full"
           >
             🛡️ Admin Portal
           </button>
+
+          {/* Social Icons (Mobile) */}
+          <div className="flex items-center justify-center gap-6 py-4 mt-2 border-t border-saffron/10">
+            <a href={templeInfo?.youtube || "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq"} target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="YouTube">▶️</a>
+            <a href={templeInfo?.facebook || "https://www.facebook.com/profile.php?id=61591645240487&sk=photos"} target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="Facebook">📘</a>
+            <a href={templeInfo?.instagram || "https://www.instagram.com/vishnumayadeviamman/"} target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="Instagram">📸</a>
+          </div>
         </div>
       </div>
     </nav>

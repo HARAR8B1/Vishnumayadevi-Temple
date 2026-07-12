@@ -1,5 +1,13 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { fetchTempleInfo, fetchGallery, fetchEvents, submitContactForm } from "../api/templeApi";
+import { fetchTempleInfo, fetchGallery, fetchEvents, submitContactForm, getPublicMainPhotos } from "../api/templeApi";
+
+export function useMainPhotos() {
+  return useQuery({
+    queryKey: ["mainPhotos"],
+    queryFn: getPublicMainPhotos,
+    staleTime: 1000 * 60 * 10,
+  });
+}
 
 export function useTempleInfo() {
   return useQuery({

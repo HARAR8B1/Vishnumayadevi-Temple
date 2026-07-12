@@ -5,6 +5,7 @@ import History from './components/History'
 import Gallery from './components/Gallery'
 import Timings from './components/Timings'
 import Events from './components/Events'
+import Committee from './components/Committee'
 import Construction from './components/Construction'
 import Donation from './components/Donation'
 import ContactForm from './components/ContactForm'
@@ -22,6 +23,7 @@ function App() {
         <Gallery />
         <Timings />
         <Events />
+        <Committee />
         <Donation />
         <ContactForm />
       </main>

@@ -13,7 +13,7 @@ export default function AdminLayout() {
       try {
         await adminVerify();
         setIsVerified(true);
-      } catch (err) {
+      } catch {
         adminLogout();
         navigate("/admin");
       }
@@ -31,12 +31,17 @@ export default function AdminLayout() {
 
   const navItems = [
     { name: "Dashboard", path: "/admin/dashboard", icon: "📊" },
+    { name: "Main Photos", path: "/admin/dashboard/main-photos", icon: "📸" },
     { name: "Gallery", path: "/admin/dashboard/gallery", icon: "🖼️" },
     { name: "Events", path: "/admin/dashboard/events", icon: "📅" },
+    { name: "Committee", path: "/admin/dashboard/committee", icon: "🏛️" },
     { name: "Temple Info", path: "/admin/dashboard/temple-info", icon: "🕉️" },
     { name: "Donation Config", path: "/admin/dashboard/donation", icon: "💰" },
     { name: "Contact Forms", path: "/admin/dashboard/contacts", icon: "✉️" },
     { name: "Receipts", path: "/admin/dashboard/receipts", icon: "🧾" },
+    { name: "Accounts", path: "/admin/dashboard/accounts", icon: "📒" },
+    { name: "Activity Logs", path: "/admin/dashboard/logs", icon: "📋" },
+    { name: "Settings", path: "/admin/dashboard/settings", icon: "⚙️" },
   ];
 
   const handleLogout = () => {

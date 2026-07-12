@@ -4,14 +4,7 @@ import { contactSchema } from "../schemas/contactSchema";
 import { submitContact } from "../api/templeApi";
 import { useLanguage } from "../context/LanguageContext";
 
-const templeCommittee = [
-  { role: { en: "President", ta: "தலைவர்" }, name: "T.M. Karthikeyan", nameTA: "T.M. கார்த்திகேயன்", phone: "94442 91833", phone2: "73580 14644" },
-  { role: { en: "Vice President", ta: "துணைத்தலைவர்" }, name: "R. Sakthivel", nameTA: "R. சக்திவேல்", phone: "9841087327" },
-  { role: { en: "Secretary", ta: "செயலாளர்" }, name: "P. Sekar", nameTA: "P. சேகர்", phone: "86107 96991" },
-  { role: { en: "Joint Secretary", ta: "துணை செயலாளர்" }, name: "P. Ezhumalai", nameTA: "P. ஏழுமலை", phone: "9840124605" },
-  { role: { en: "Treasurer", ta: "பொருளாளர்" }, name: "M. Sivakumar", nameTA: "M. சிவக்குமார்", phone: "9962307330" },
-  { role: { en: "Joint Treasurer", ta: "துணை பொருளாளர்" }, name: "N. Paramasivam", nameTA: "N. பரமசிவம்", phone: "9840221349", phone2: "8124574760" },
-];
+
 
 export default function ContactForm() {
   const { language, t } = useLanguage();
@@ -89,40 +82,7 @@ export default function ContactForm() {
               </div>
             </div>
 
-            {/* Temple Committee */}
-            <div className="p-4 rounded-xl bg-white border border-saffron/10 shadow-sm">
-              <h4 className="font-bold text-charcoal text-sm sm:text-base mb-3 flex items-center gap-2">
-                <span className="text-saffron">🏛️</span>
-                {language === "ta" ? "ஆலய நிர்வாகிகள்" : "Temple Committee"}
-              </h4>
-              <div className="space-y-2.5">
-                {templeCommittee.map((member, idx) => (
-                  <div key={idx} className="flex items-center gap-3 py-1.5 border-b border-gray-100 last:border-0">
-                    <div className="w-7 h-7 rounded-full bg-saffron/10 flex items-center justify-center text-saffron text-xs font-bold shrink-0">
-                      {idx + 1}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-charcoal font-medium text-xs sm:text-sm truncate">
-                        {language === "ta" ? member.nameTA : member.name}
-                      </p>
-                      <p className="text-charcoal/50 text-[10px] sm:text-xs">
-                        {language === "ta" ? member.role.ta : member.role.en}
-                      </p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <a href={`tel:+91${member.phone.replace(/\s/g, '')}`} className="text-charcoal/70 text-[11px] sm:text-xs hover:text-saffron transition-colors block">
-                        {member.phone}
-                      </a>
-                      {member.phone2 && (
-                        <a href={`tel:+91${member.phone2.replace(/\s/g, '')}`} className="text-charcoal/50 text-[10px] sm:text-[11px] hover:text-saffron transition-colors block">
-                          {member.phone2}
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+
           </div>
 
           {/* Right: Form */}

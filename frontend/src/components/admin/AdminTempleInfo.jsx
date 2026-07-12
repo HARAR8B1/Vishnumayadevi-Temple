@@ -95,6 +95,43 @@ export default function AdminTempleInfo() {
           </div>
         </div>
 
+        {/* Social Links */}
+        <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <h3 className="font-bold text-lg mb-4 text-charcoal border-b border-gray-100 pb-2">Social Links</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-1">YouTube URL</label>
+              <input
+                type="url"
+                value={info.youtube || ""}
+                onChange={(e) => setInfo({ ...info, youtube: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron focus:ring-1 focus:ring-saffron"
+                placeholder="https://youtube.com/..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-1">Facebook URL</label>
+              <input
+                type="url"
+                value={info.facebook || ""}
+                onChange={(e) => setInfo({ ...info, facebook: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron focus:ring-1 focus:ring-saffron"
+                placeholder="https://facebook.com/..."
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-charcoal mb-1">Instagram URL</label>
+              <input
+                type="url"
+                value={info.instagram || ""}
+                onChange={(e) => setInfo({ ...info, instagram: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-saffron focus:ring-1 focus:ring-saffron"
+                placeholder="https://instagram.com/..."
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Save Button */}
         <div className="flex justify-end">
           <button

@@ -5,6 +5,7 @@ export default function AdminDonation() {
   const [donation, setDonation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     fetchDonation();
@@ -21,8 +22,13 @@ export default function AdminDonation() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setShowConfirm(true);
+  };
+
+  const confirmSubmit = async () => {
+    setShowConfirm(false);
     setSaving(true);
     try {
       await adminUpdateDonation(donation);
@@ -134,6 +140,37 @@ export default function AdminDonation() {
           </button>
         </div>
       </form>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 bg-charcoal/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border-t-4 border-red-500 animate-fade-in-up">
+            <div className="flex items-start gap-4 mb-2">
+              <div className="text-4xl">⚠️</div>
+              <div>
+                <h3 className="text-xl font-bold text-red-600 mb-1">Warning</h3>
+                <p className="text-charcoal font-bold text-base">Account details change not recommended</p>
+                <p className="text-red-500 font-medium text-sm mt-1">Changes will be logged.</p>
+                <p className="text-charcoal/60 text-sm mt-3">Are you sure you want to proceed with updating the donation configuration?</p>
+              </div>
+            </div>
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="px-5 py-2.5 rounded-xl font-medium text-charcoal bg-gray-100 hover:bg-gray-200 transition-colors text-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmSubmit}
+                className="px-5 py-2.5 rounded-xl font-bold text-white bg-red-500 hover:bg-red-600 transition-colors text-sm"
+              >
+                Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

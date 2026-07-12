@@ -12,6 +12,8 @@ frontend/build/
 .env.local
 .env.*.local
 backend/.env
+frontend/.env
+frontend/.env.local
 
 # Logs
 logs/
@@ -25,6 +27,3 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
-
-# Uploaded images (runtime uploads, not tracked in git)
-frontend/public/images/upload-*
