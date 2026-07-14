@@ -103,7 +103,7 @@ export default function Navbar() {
             {/* Social Icons (Desktop) */}
             <div className="flex items-center gap-1.5 ml-2">
               <a
-                href={templeInfo?.youtube || "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq"}
+                href="https://www.youtube.com/@vishnumaya-f8d"
                 target="_blank" rel="noopener noreferrer"
                 className="p-1 rounded-full hover:bg-saffron/10 transition-all text-lg opacity-90 hover:opacity-100"
                 title="YouTube"
@@ -111,7 +111,7 @@ export default function Navbar() {
                 ▶️
               </a>
               <a
-                href={templeInfo?.facebook || "https://www.facebook.com/profile.php?id=61591645240487&sk=photos"}
+                href="https://www.facebook.com/profile.php?id=61591645240487&sk=photos"
                 target="_blank" rel="noopener noreferrer"
                 className="p-1 rounded-full hover:bg-saffron/10 transition-all text-lg opacity-90 hover:opacity-100"
                 title="Facebook"
@@ -119,7 +119,7 @@ export default function Navbar() {
                 📘
               </a>
               <a
-                href={templeInfo?.instagram || "https://www.instagram.com/vishnumayadeviamman/"}
+                href="https://www.instagram.com/vishnumayadeviamman/"
                 target="_blank" rel="noopener noreferrer"
                 className="p-1 rounded-full hover:bg-saffron/10 transition-all text-lg opacity-90 hover:opacity-100"
                 title="Instagram"
@@ -128,13 +128,6 @@ export default function Navbar() {
               </a>
             </div>
 
-            {/* Admin Button */}
-            <button
-              onClick={() => window.open("/admin", "_blank", "noopener,noreferrer")}
-              className="ml-2 px-3 py-1.5 rounded-full bg-saffron/10 border border-saffron/30 hover:bg-saffron hover:text-charcoal text-saffron transition-all text-xs font-bold flex items-center gap-1"
-            >
-              🛡️ Admin
-            </button>
           </div>
 
           {/* Mobile controls */}
@@ -188,19 +181,11 @@ export default function Navbar() {
           >
             🕉️ Virtual Darshan
           </button>
-          {/* Admin Link (Mobile) */}
-          <button
-            onClick={() => { setIsMobileOpen(false); window.open("/admin", "_blank", "noopener,noreferrer"); }}
-            className="mt-2 mx-0 px-3 py-3 text-sm font-bold text-saffron bg-saffron/5 hover:bg-saffron/15 rounded-xl transition-all duration-200 flex items-center gap-2 w-full"
-          >
-            🛡️ Admin Portal
-          </button>
-
           {/* Social Icons (Mobile) */}
           <div className="flex items-center justify-center gap-6 py-4 mt-2 border-t border-saffron/10">
-            <a href={templeInfo?.youtube || "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq"} target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="YouTube">▶️</a>
-            <a href={templeInfo?.facebook || "https://www.facebook.com/profile.php?id=61591645240487&sk=photos"} target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="Facebook">📘</a>
-            <a href={templeInfo?.instagram || "https://www.instagram.com/vishnumayadeviamman/"} target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="Instagram">📸</a>
+            <a href="https://www.youtube.com/@vishnumaya-f8d" target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="YouTube">▶️</a>
+            <a href="https://www.facebook.com/profile.php?id=61591645240487&sk=photos" target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="Facebook">📘</a>
+            <a href="https://www.instagram.com/vishnumayadeviamman/" target="_blank" rel="noopener noreferrer" className="text-2xl opacity-90 hover:opacity-100 transition-opacity" title="Instagram">📸</a>
           </div>
         </div>
       </div>

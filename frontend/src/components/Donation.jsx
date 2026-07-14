@@ -1,5 +1,6 @@
 import { useLanguage } from "../context/LanguageContext";
 import { useMainPhotos } from "../hooks/useTemple";
+import { staticDonationInfo } from "../data/staticData";
 
 export default function Donation() {
   const { t } = useLanguage();
@@ -60,7 +61,7 @@ export default function Donation() {
               <div className="mb-5 w-full flex justify-center">
                 <div className="p-3 sm:p-4 bg-white rounded-xl shadow-inner border border-gray-100 w-full">
                   <img
-                    src=""
+                    src={staticDonationInfo.qrUrl}
                     alt="Temple Donation QR Code — Vishnu Maya Devi Amman Temple"
                     className="w-full max-w-[280px] sm:max-w-[360px] h-auto mx-auto group-hover:scale-105 transition-transform duration-500"
                   />
@@ -81,10 +82,10 @@ export default function Donation() {
                     {t.donation.bankName}
                   </p>
                   <p className="text-charcoal/60 text-xs mb-3">
-                    A/C: 182201000003782 | IFSC: IOBA0001822
+                    A/C: {staticDonationInfo.accountNumber} | IFSC: {staticDonationInfo.ifsc}
                   </p>
                   <div className="inline-block bg-charcoal text-saffron px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide">
-                    {t.donation.upiId}: 8148692490@iob
+                    {t.donation.upiId}: {staticDonationInfo.upiId}
                   </div>
                 </div>
               </div>

@@ -11,13 +11,9 @@ export default function Construction() {
     .sort((a, b) => a.sort_order - b.sort_order);
 
   const defaultConstructionImages = [
-    { src: "/images/construction-1.png", alt: "Temple Construction Ritual 1" },
-    { src: "/images/construction-2.jpg", alt: "Temple Construction Ritual 2" },
-    { src: "/images/construction-3.jpg", alt: "Temple Construction Ritual 3" },
+    { src: "/images/construction-1.jpg", alt: "Temple Construction Ritual 1" },
   ];
 
-  // We map over default array length or DB array length, whichever is greater, or just use DB images if they exist.
-  // Actually, we can just use the DB images if there are any. If not, use defaults.
   const constructionImages = dbConstructionPhotos.length > 0
     ? dbConstructionPhotos.map(p => ({ src: p.url, alt: p.label || "Temple Construction" }))
     : defaultConstructionImages;
@@ -36,12 +32,12 @@ export default function Construction() {
           </p>
         </div>
 
-        {/* Grid: 1 col on mobile, 3 cols on sm+ */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        {/* Image Display */}
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
           {constructionImages.map((img, idx) => (
             <div
               key={idx}
-              className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-video sm:aspect-[4/3] shadow-lg group border border-saffron/20"
+              className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-video sm:aspect-[4/3] shadow-lg group border border-saffron/20 w-full max-w-md sm:w-1/3 flex-grow-0"
             >
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"

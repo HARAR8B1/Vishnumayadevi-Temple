@@ -1,22 +1,25 @@
 import { useState, useEffect } from "react";
-import { getCommittee } from "../api/templeApi";
+import { staticCommitteeMembers } from "../data/staticData";
+
+async function fetchCommitteeWithFallback() {
+  try {
+    const { getCommittee } = await import("../api/templeApi");
+    const data = await getCommittee();
+    if (!data || data.length === 0) return staticCommitteeMembers;
+    return data;
+  } catch {
+    return staticCommitteeMembers;
+  }
+}
 
 export default function Committee() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const data = await getCommittee();
-        setMembers(data || []);
-      } catch (err) {
-        console.error("Failed to fetch committee members:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMembers();
+    fetchCommitteeWithFallback()
+      .then((data) => setMembers(data || []))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading || members.length === 0) return null;
@@ -40,7 +43,7 @@ export default function Committee() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {members.map((member, index) => (
-            <div 
+            <div
               key={member.id}
               className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-saffron/30 transition-all duration-300 group flex flex-col items-center text-center"
               style={{ animationDelay: `${index * 100}ms` }}
@@ -48,20 +51,20 @@ export default function Committee() {
               <div className="w-20 h-20 bg-gradient-to-br from-saffron to-temple-gold rounded-full flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform duration-300">
                 <span className="text-3xl">🙏</span>
               </div>
-              
+
               <h3 className="text-xl font-bold text-charcoal mb-1 group-hover:text-saffron transition-colors">
                 {member.name}
               </h3>
-              
+
               <p className="text-temple-gold font-medium mb-4 uppercase tracking-wider text-sm">
                 {member.post}
               </p>
-              
+
               {member.mobile_number && (
                 <div className="mt-auto w-full pt-4 border-t border-gray-50 flex flex-col items-center gap-2 text-charcoal/60">
                   {member.mobile_number.split(',').map((num, idx) => (
-                    <a 
-                      key={idx} 
+                    <a
+                      key={idx}
                       href={`tel:${num.trim()}`}
                       className="flex items-center gap-2 hover:text-saffron transition-colors text-sm"
                     >

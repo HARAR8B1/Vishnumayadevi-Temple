@@ -1,22 +1,37 @@
+import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
-import { useMainPhotos } from "../hooks/useTemple";
+import { heroImages } from "../data/staticData";
 
 export default function Hero() {
   const { t } = useLanguage();
-  const { data: mainPhotos = [] } = useMainPhotos();
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [fade, setFade] = useState(true);
 
-  // Filter and sort hero photos
-  const heroPhotos = mainPhotos
-    .filter(photo => photo.section === 'hero')
-    .sort((a, b) => a.sort_order - b.sort_order);
+  // Default images if heroImages is empty
+  const images = heroImages.length > 0 ? heroImages : [
+    { id: 1, url: "/images/hero-custom.jpg", alt: "Sri Vishnu Maya Devi Amman", caption: "அருள்மிகு ஸ்ரீ விஷ்ணு மாயாதேவி அம்மன்" }
+  ];
 
-  // Fallbacks
-  const fallbackPortrait = "/images/hero-custom.jpg";
+  // Auto-advance slideshow every 4 seconds
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const timer = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setActiveIdx(prev => (prev + 1) % images.length);
+        setFade(true);
+      }, 300);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [images.length]);
 
-  // Assign portrait
-  const portraitUrl = heroPhotos.length > 0 ? heroPhotos[0].url : fallbackPortrait;
-  const secondaryUrl = heroPhotos.length > 1 ? heroPhotos[1].url : portraitUrl;
-  const portraitBg = `url('${portraitUrl}')`;
+  const goTo = (idx) => {
+    setFade(false);
+    setTimeout(() => { setActiveIdx(idx); setFade(true); }, 300);
+  };
+
+  const currentImage = images[activeIdx];
+  const deityImage = images[0]; // First image is always the deity portrait
 
   return (
     <section
@@ -25,8 +40,8 @@ export default function Hero() {
     >
       {/* Full-screen blurred hero background */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-2xl opacity-20 scale-110"
-        style={{ backgroundImage: portraitBg }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-2xl opacity-20 scale-110 transition-all duration-700"
+        style={{ backgroundImage: `url('${currentImage.url}')` }}
       />
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-charcoal/60" />
@@ -41,7 +56,7 @@ export default function Hero() {
         {/* MOBILE: stacked layout */}
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-14">
 
-          {/* ── LEFT: Text Block ── */}
+          {/* ── LEFT: Text Block + Deity Portrait ── */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left w-full lg:w-[42%] flex-shrink-0">
             <span className="text-4xl sm:text-5xl text-saffron animate-pulse-glow mb-3 inline-block">ॐ</span>
 
@@ -78,12 +93,12 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Hero 1 Image - Aligned under text */}
+            {/* Deity Portrait (always the first image) */}
             <div className="mt-8 lg:mt-12 w-full flex justify-center lg:justify-start">
               <div className="relative rounded-xl overflow-hidden shadow-xl border-2 border-saffron/30 ring-2 ring-saffron/10 w-32 sm:w-40 lg:w-48 aspect-[3/4]">
                 <img
-                  src={portraitUrl}
-                  alt="Sri Vishnu Maya Devi Amman"
+                  src={deityImage.url}
+                  alt={deityImage.alt}
                   className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent pointer-events-none" />
@@ -91,19 +106,54 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── RIGHT: Large Notice Image ── */}
+          {/* ── RIGHT: Slideshow of all 3 images ── */}
           <div className="flex-1 w-full flex flex-col items-center justify-center mt-12 lg:mt-0">
             <div className="relative w-full max-w-lg lg:max-w-2xl rounded-2xl overflow-hidden shadow-2xl border-2 border-saffron/30 ring-4 ring-saffron/10 group bg-charcoal/30 flex justify-center items-center p-2 sm:p-4">
               <img
-                src={secondaryUrl}
-                alt="Temple Notice"
-                className="w-full h-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh] object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                src={currentImage.url}
+                alt={currentImage.alt}
+                className={`w-full h-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh] object-contain transition-opacity duration-300 group-hover:scale-[1.02] ${fade ? "opacity-100" : "opacity-0"}`}
               />
+
+              {/* Prev / Next arrows */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={() => goTo((activeIdx - 1 + images.length) % images.length)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-charcoal/60 hover:bg-saffron/80 text-cream hover:text-charcoal flex items-center justify-center transition-all duration-200 text-sm font-bold z-10"
+                    aria-label="Previous image"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={() => goTo((activeIdx + 1) % images.length)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-charcoal/60 hover:bg-saffron/80 text-cream hover:text-charcoal flex items-center justify-center transition-all duration-200 text-sm font-bold z-10"
+                    aria-label="Next image"
+                  >
+                    ›
+                  </button>
+                </>
+              )}
             </div>
 
-            <p className="text-center text-saffron/50 text-[10px] tracking-widest mt-6 uppercase">
-              ✦ Divine Blessings ✦
-            </p>
+            {/* Dot indicators + caption */}
+            {images.length > 1 && (
+              <div className="flex flex-col items-center gap-2 mt-4">
+                <div className="flex gap-2">
+                  {images.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goTo(idx)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === activeIdx ? "bg-saffron w-6" : "bg-saffron/30 hover:bg-saffron/60"}`}
+                      aria-label={`Go to image ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+                <p className={`text-center text-saffron/60 text-[11px] tracking-widest uppercase transition-opacity duration-300 ${fade ? "opacity-100" : "opacity-0"}`}>
+                  ✦ {currentImage.caption} ✦
+                </p>
+              </div>
+            )}
           </div>
 
         </div>
