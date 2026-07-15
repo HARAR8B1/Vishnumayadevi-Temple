@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import { translations } from '../translations';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
@@ -30,6 +31,7 @@ export function LanguageProvider({ children }) {
 }
 
 // Keep backward-compatible export for any files that import from here
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (context === undefined) {

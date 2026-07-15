@@ -19,7 +19,7 @@ export default function ContactForm() {
     try {
       await submitContact(data);
       reset();
-    } catch (error) {
+    } catch {
       console.warn("Backend unavailable, simulating successful form submission.");
       // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 1000));

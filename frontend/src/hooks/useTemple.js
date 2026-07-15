@@ -8,7 +8,6 @@ import {
   staticTempleInfo,
   staticGalleryImages,
   staticEvents,
-  staticCommitteeMembers,
   staticMainPhotos,
 } from "../data/staticData";
 

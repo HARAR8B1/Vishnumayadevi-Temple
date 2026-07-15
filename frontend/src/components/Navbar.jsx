@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
-import { useTempleInfo } from "../hooks/useTemple";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { data: templeInfo } = useTempleInfo();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { language, toggleLanguage, t } = useLanguage();
   const navigate = useNavigate();
