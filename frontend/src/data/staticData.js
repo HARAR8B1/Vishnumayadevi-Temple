@@ -133,7 +133,7 @@ export const committee = [
   },
   {
     id: 3,
-    name: { en: "Shri. P. Gokar", ta: "திரு. P. கசகர்" },
+    name: { en: "Shri. P. Sekar", ta: "திரு. P. சேகர்" },
     post: { en: "Secretary", ta: "செயலாளர்" },
     mobile_number: "+91 86107 96991",
   },
