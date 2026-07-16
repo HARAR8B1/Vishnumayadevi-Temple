@@ -119,9 +119,42 @@ export const gallery = [
 ];
 
 export const committee = [
-  { id: 1, name: "Shri. T.M. Karthikeyan", post: "President", mobile_number: "+91 94442 91833" },
-  { id: 2, name: "Shri. K. Murugan", post: "Secretary", mobile_number: "+91 73580 14644" },
-  { id: 3, name: "Shri. R. Selvam", post: "Treasurer", mobile_number: "" },
+  {
+    id: 1,
+    name: { en: "Shri. T.M. Karthikeyan", ta: "திரு. T.M. கார்த்திகேயன்" },
+    post: { en: "Temple President", ta: "ஆலயத் தலைவர்" },
+    mobile_number: "+91 94442 91833, +91 73580 14644",
+  },
+  {
+    id: 2,
+    name: { en: "Shri. R. Sakthivel", ta: "திரு. R. சக்திகவல்" },
+    post: { en: "Vice President", ta: "துணைத் தலைவர்" },
+    mobile_number: "+91 98410 87327",
+  },
+  {
+    id: 3,
+    name: { en: "Shri. P. Gokar", ta: "திரு. P. கசகர்" },
+    post: { en: "Secretary", ta: "செயலாளர்" },
+    mobile_number: "+91 86107 96991",
+  },
+  {
+    id: 4,
+    name: { en: "Shri. P. Ezhumalai", ta: "திரு. P. ஏழுமலை" },
+    post: { en: "Joint Secretary", ta: "துணைச் செயலாளர்" },
+    mobile_number: "+91 98401 24605",
+  },
+  {
+    id: 5,
+    name: { en: "Shri. M. Shivakumar", ta: "திரு. M. சிவக்குமார்" },
+    post: { en: "Treasurer", ta: "பொருளாளர்" },
+    mobile_number: "+91 99623 07330",
+  },
+  {
+    id: 6,
+    name: { en: "Shri. N. Paramashivam", ta: "திரு. N. பரமசிவம்" },
+    post: { en: "Joint Treasurer", ta: "துணைப் பொருளாளர்" },
+    mobile_number: "+91 98402 21349, +91 81245 74760",
+  },
 ];
 
 export const mainPhotos = [
@@ -137,6 +170,20 @@ export const mainPhotos = [
     section: "hero",
     url: "/images/adi-banner.jpg",
     label: "Adi Banner",
+    sort_order: 2,
+  },
+  {
+    id: 3,
+    section: "construction",
+    url: "/images/construction-1.jpg",
+    label: "Temple Construction Ritual 1",
+    sort_order: 1,
+  },
+  {
+    id: 4,
+    section: "construction",
+    url: "/images/gopuram.jpg",
+    label: "Temple Gopuram",
     sort_order: 2,
   },
 ];

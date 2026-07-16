@@ -1,22 +1,12 @@
 import { useLanguage } from "../context/LanguageContext";
-import { useMainPhotos } from "../hooks/useTemple";
 
 export default function Construction() {
   const { language, t } = useLanguage();
-  const { data: mainPhotos = [] } = useMainPhotos();
 
-  // Filter and sort construction photos
-  const dbConstructionPhotos = mainPhotos
-    .filter(photo => photo.section === 'construction')
-    .sort((a, b) => a.sort_order - b.sort_order);
-
-  const defaultConstructionImages = [
-    { src: "/images/construction-1.jpg", alt: "Temple Construction Ritual 1" },
+  const constructionImages = [
+    { src: "/images/donation-banner.png", alt: "Temple Donation Appeal – English" },
+    { src: "/images/donation-banner-tamil.bmp", alt: "Temple Donation Appeal – Tamil" },
   ];
-
-  const constructionImages = dbConstructionPhotos.length > 0
-    ? dbConstructionPhotos.map(p => ({ src: p.url, alt: p.label || "Temple Construction" }))
-    : defaultConstructionImages;
 
   return (
     <section id="construction" className="py-16 sm:py-20 bg-charcoal">
@@ -33,15 +23,17 @@ export default function Construction() {
         </div>
 
         {/* Image Display */}
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-5xl mx-auto items-stretch">
           {constructionImages.map((img, idx) => (
             <div
               key={idx}
-              className="relative overflow-hidden rounded-xl sm:rounded-2xl aspect-video sm:aspect-[4/3] shadow-lg group border border-saffron/20 w-full max-w-md sm:w-1/3 flex-grow-0"
+              className="relative overflow-hidden rounded-2xl shadow-xl border-2 border-saffron/20 group cursor-pointer"
             >
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${img.src})` }}
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-[260px] md:h-[420px] object-contain bg-charcoal/40 transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>

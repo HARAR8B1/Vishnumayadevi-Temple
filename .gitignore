@@ -1,6 +1,5 @@
 # Node modules
 node_modules/
-backend/node_modules/
 frontend/node_modules/
 
 # Build output
@@ -11,7 +10,6 @@ frontend/build/
 .env
 .env.local
 .env.*.local
-backend/.env
 frontend/.env
 frontend/.env.local
 

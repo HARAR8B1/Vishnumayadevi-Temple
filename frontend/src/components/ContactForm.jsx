@@ -71,7 +71,7 @@ export default function ContactForm() {
               <div>
                 <h4 className="font-bold text-charcoal text-sm sm:text-base">{t.contact.callUs}</h4>
                 <p className="text-charcoal/60 text-[11px] sm:text-xs mt-0.5">
-                  {language === "ta" ? "தலைவர் - திரு. T.M. கார்த்திகேயன்" : "President — Shri. T.M. Karthikeyan"}
+                  {language === "ta" ? "ஆலயத் தலைவர் - திரு. T.M. கார்த்திகேயன்" : "Temple President — Shri. T.M. Karthikeyan"}
                 </p>
                 <div className="flex flex-wrap gap-x-3 gap-y-1 mt-1">
                   <a href="tel:+919444291833" className="text-charcoal/70 text-xs sm:text-sm hover:text-saffron transition-colors">

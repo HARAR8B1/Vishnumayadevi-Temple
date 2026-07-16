@@ -73,7 +73,7 @@ export default function Footer() {
               <li className="flex gap-3 text-xs sm:text-sm text-cream/70 items-start">
                 <span className="text-saffron shrink-0 mt-0.5">📞</span>
                 <div>
-                  <p className="text-cream/50 text-[11px] mb-0.5">President — Shri. T.M. Karthikeyan</p>
+                  <p className="text-cream/50 text-[11px] mb-0.5">Temple President — Shri. T.M. Karthikeyan</p>
                   <a href="tel:+919444291833" className="hover:text-saffron transition-colors block">+91 94442 91833</a>
                   <a href="tel:+917358014644" className="hover:text-saffron transition-colors block text-cream/50 text-xs">+91 73580 14644</a>
                 </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLanguage } from "../context/LanguageContext";
 import { staticCommitteeMembers } from "../data/staticData";
 
 async function fetchCommitteeWithFallback() {
@@ -12,7 +13,13 @@ async function fetchCommitteeWithFallback() {
   }
 }
 
+function getLocalizedText(value, language) {
+  if (typeof value === "string") return value;
+  return value?.[language] || value?.en || "";
+}
+
 export default function Committee() {
+  const { language } = useLanguage();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -53,11 +60,11 @@ export default function Committee() {
               </div>
 
               <h3 className="text-xl font-bold text-charcoal mb-1 group-hover:text-saffron transition-colors">
-                {member.name}
+                {getLocalizedText(member.name, language)}
               </h3>
 
               <p className="text-temple-gold font-medium mb-4 uppercase tracking-wider text-sm">
-                {member.post}
+                {getLocalizedText(member.post, language)}
               </p>
 
               {member.mobile_number && (
