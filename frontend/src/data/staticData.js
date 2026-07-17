@@ -127,7 +127,7 @@ export const committee = [
   },
   {
     id: 2,
-    name: { en: "Shri. R. Sakthivel", ta: "திரு. R. சக்திகவல்" },
+    name: { en: "Shri. R. Sakthivel", ta: "திரு. R. சக்திவேல்" },
     post: { en: "Vice President", ta: "துணைத் தலைவர்" },
     mobile_number: "+91 98410 87327",
   },
