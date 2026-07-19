@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { heroImages } from "../data/staticData";
+import { useGitHubImages } from "../hooks/useTemple";
 
 export default function Hero() {
   const { t } = useLanguage();
+  const { data: githubImages } = useGitHubImages();
   const [activeIdx, setActiveIdx] = useState(0);
   const [fade, setFade] = useState(true);
 
-  // Default images if heroImages is empty
-  const images = heroImages.length > 0 ? heroImages : [
-    { id: 1, url: "/images/hero-custom.jpg", alt: "Sri Vishnu Maya Devi Amman", caption: "அருள்மிகு ஸ்ரீ விஷ்ணு மாயாதேவி அம்மன்" }
-  ];
+  // Use GitHub images if available, otherwise fall back to static heroImages
+  const images =
+    githubImages && githubImages.length > 0
+      ? githubImages
+      : heroImages.length > 0
+      ? heroImages
+      : [{ id: 1, url: "/images/hero-custom.jpg", alt: "Sri Vishnu Maya Devi Amman", caption: "அருள்மிகு ஸ்ரீ விஷ்ணு மாயாதேவி அம்மன்" }];
+
 
   // Auto-advance slideshow every 4 seconds
   useEffect(() => {

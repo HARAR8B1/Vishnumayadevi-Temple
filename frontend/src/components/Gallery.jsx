@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useGallery } from "../hooks/useTemple";
+import { useGitHubImages } from "../hooks/useTemple";
 import { useLanguage } from "../context/LanguageContext";
 
 export default function Gallery() {
-  const { data: images = [], isLoading } = useGallery();
+  const { data: images = [], isLoading } = useGitHubImages();
+
   const { language, t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
 

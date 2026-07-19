@@ -9,7 +9,49 @@ import {
   staticGalleryImages,
   staticEvents,
   staticMainPhotos,
+  heroImages as staticHeroImages,
 } from "../data/staticData";
+
+// ─── GitHub Image Folder Config ───────────────────────────────────────────────
+const GITHUB_OWNER = "HARAR8B1";
+const GITHUB_REPO = "Vishnumayadevi-Temple";
+const GITHUB_BRANCH = "main";
+const GITHUB_IMAGE_FOLDER = "Image";
+
+/**
+ * Fetches all images from the GitHub repo's "Image" folder.
+ * Returns an array of { id, name, alt, url } using the raw download URL.
+ */
+export async function fetchGitHubImages() {
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_IMAGE_FOLDER}`;
+  try {
+    const res = await fetch(apiUrl, {
+      headers: { Accept: "application/vnd.github+json" },
+    });
+    if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+    const files = await res.json();
+    // Filter only image files
+    const images = files
+      .filter((f) => f.type === "file")
+      .filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f.name))
+      .map((f, idx) => ({
+        id: idx + 1,
+        name: f.name,
+        alt: f.name.replace(/\.[^/.]+$/, "").replace(/[-_]+/g, " ").trim(),
+        url: f.download_url,
+        caption: f.name.replace(/\.[^/.]+$/, "").replace(/[-_]+/g, " ").trim(),
+        title: {
+          en: f.name.replace(/\.[^/.]+$/, "").replace(/[-_]+/g, " ").trim(),
+          ta: f.name.replace(/\.[^/.]+$/, "").replace(/[-_]+/g, " ").trim(),
+        },
+        description: { en: "Temple Image", ta: "ஆலய படம்" },
+      }));
+    return images;
+  } catch (err) {
+    console.warn("GitHub Image fetch failed, using static fallback:", err.message);
+    return null;
+  }
+}
 
 // Helper: fetch with static fallback
 async function fetchWithFallback(apiFn, staticData) {
@@ -80,5 +122,33 @@ export function useEvents() {
 export function useContactSubmit() {
   return useMutation({
     mutationFn: submitContactForm,
+  });
+}
+
+/**
+ * useGitHubImages
+ * Fetches all images from the GitHub repo's "Image" folder.
+ * Falls back to static gallery + hero images if the folder is unavailable.
+ */
+export function useGitHubImages() {
+  return useQuery({
+    queryKey: ["githubImages"],
+    queryFn: async () => {
+      const result = await fetchGitHubImages();
+      // If GitHub returned images, use them; otherwise fall back to static data
+      if (result && result.length > 0) return result;
+      // Build a merged fallback from hero + gallery static images
+      const fallback = [
+        ...staticHeroImages,
+        ...staticGalleryImages.map((img) => ({
+          ...img,
+          alt: img.title?.en ?? "Temple Image",
+          caption: img.title?.en ?? "Temple Image",
+        })),
+      ];
+      return fallback;
+    },
+    staleTime: 1000 * 60 * 5, // re-fetch every 5 min to pick up new images
+    retry: 1,
   });
 }
