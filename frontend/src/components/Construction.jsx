@@ -1,11 +1,26 @@
 import { useLanguage } from "../context/LanguageContext";
+import { useGitHubImages } from "../hooks/useTemple";
+import { findGitHubImage } from "../hooks/useTemple";
 
 export default function Construction() {
   const { language, t } = useLanguage();
+  const { data: githubImages } = useGitHubImages();
+
+  // Try to find donation banner images from the GitHub repo by filename pattern.
+  // Falls back to the local /images/ copies if the repo doesn't have them yet.
+  const donationBannerEn =
+    findGitHubImage(githubImages, "donation-banner") ||
+    findGitHubImage(githubImages, "donation banner") ||
+    "/images/donation-banner.png";
+
+  const donationBannerTa =
+    findGitHubImage(githubImages, /donation.banner.tamil/i) ||
+    findGitHubImage(githubImages, /donation.banner.ta/i) ||
+    "/images/donation-banner-tamil.bmp";
 
   const constructionImages = [
-    { src: "/images/donation-banner.png", alt: "Temple Donation Appeal – English" },
-    { src: "/images/donation-banner-tamil.bmp", alt: "Temple Donation Appeal – Tamil" },
+    { src: donationBannerEn, alt: "Temple Donation Appeal – English" },
+    { src: donationBannerTa, alt: "Temple Donation Appeal – Tamil" },
   ];
 
   return (

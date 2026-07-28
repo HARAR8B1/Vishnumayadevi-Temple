@@ -1,10 +1,18 @@
 import { useLanguage } from "../context/LanguageContext";
-import { useMainPhotos } from "../hooks/useTemple";
+import { useMainPhotos, useGitHubImages, findGitHubImage } from "../hooks/useTemple";
 import { staticDonationInfo } from "../data/staticData";
 
 export default function Donation() {
   const { t } = useLanguage();
   const { data: mainPhotos = [] } = useMainPhotos();
+  const { data: githubImages } = useGitHubImages();
+
+  // Resolve QR code from GitHub repo first, then fall back to local static copy
+  const qrImageUrl =
+    findGitHubImage(githubImages, "upi") ||
+    findGitHubImage(githubImages, "qr") ||
+    findGitHubImage(githubImages, "donation-qr") ||
+    staticDonationInfo.qrUrl;
 
   const bannerImages = mainPhotos
     .filter(photo => photo.section === 'donation')
@@ -61,7 +69,7 @@ export default function Donation() {
               <div className="mb-5 w-full flex justify-center">
                 <div className="p-3 sm:p-4 bg-white rounded-xl shadow-inner border border-gray-100 w-full">
                   <img
-                    src={staticDonationInfo.qrUrl}
+                    src={qrImageUrl}
                     alt="Temple Donation QR Code — Vishnu Maya Devi Amman Temple"
                     className="w-full max-w-[280px] sm:max-w-[360px] h-auto mx-auto group-hover:scale-105 transition-transform duration-500"
                   />

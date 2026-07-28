@@ -12,18 +12,28 @@ import {
   heroImages as staticHeroImages,
 } from "../data/staticData";
 
-// ─── GitHub Image Folder Config ───────────────────────────────────────────────
+// ─── GitHub Image Repo Config ─────────────────────────────────────────────────
 const GITHUB_OWNER = "HARAR8B1";
-const GITHUB_REPO = "Vishnumayadevi-Temple";
+const GITHUB_REPO = "Temple-details";
 const GITHUB_BRANCH = "main";
-const GITHUB_IMAGE_FOLDER = "Image";
+// Empty string = repo root. Change to a subfolder name (e.g. "images") if needed.
+const GITHUB_IMAGE_FOLDER = "";
 
 /**
- * Fetches all images from the GitHub repo's "Image" folder.
- * Returns an array of { id, name, alt, url } using the raw download URL.
+ * Builds the raw.githubusercontent.com URL for a file in the repo.
+ */
+export function getGitHubRawUrl(filename, folder = GITHUB_IMAGE_FOLDER) {
+  const path = folder ? `${folder}/${filename}` : filename;
+  return `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${path}`;
+}
+
+/**
+ * Fetches all images from the GitHub repo (root or a subfolder).
+ * Returns an array of { id, name, alt, url, caption, title, description }.
  */
 export async function fetchGitHubImages() {
-  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${GITHUB_IMAGE_FOLDER}`;
+  const folderPath = GITHUB_IMAGE_FOLDER;
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${folderPath}`;
   try {
     const res = await fetch(apiUrl, {
       headers: { Accept: "application/vnd.github+json" },
@@ -33,7 +43,7 @@ export async function fetchGitHubImages() {
     // Filter only image files
     const images = files
       .filter((f) => f.type === "file")
-      .filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f.name))
+      .filter((f) => /\.(png|jpe?g|bmp|webp|gif)$/i.test(f.name))
       .map((f, idx) => ({
         id: idx + 1,
         name: f.name,
@@ -51,6 +61,24 @@ export async function fetchGitHubImages() {
     console.warn("GitHub Image fetch failed, using static fallback:", err.message);
     return null;
   }
+}
+
+/**
+ * findGitHubImage
+ * Given a list of GitHub images and a filename pattern (string or regex),
+ * returns the first matching image's URL, or null.
+ */
+export function findGitHubImage(images, pattern) {
+  if (!images || images.length === 0) return null;
+  if (!pattern) return null;
+  const isRegex = pattern instanceof RegExp;
+  const match = images.find((img) => {
+    if (!img || !img.name) return false;
+    return isRegex
+      ? pattern.test(img.name)
+      : img.name.toLowerCase().includes(pattern.toLowerCase());
+  });
+  return match ? match.url : null;
 }
 
 // Helper: fetch with static fallback

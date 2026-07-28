@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import "./VirtualDarshan.css";
+import { useGitHubImages, findGitHubImage } from "../hooks/useTemple";
 
 export default function VirtualDarshan() {
   const audioRef = useRef(null);
   const cardRef = useRef(null);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const { data: githubImages } = useGitHubImages();
+  // Look for a deity/virtual-darshan image in the GitHub repo, fallback to local
+  const deityImageUrl =
+    findGitHubImage(githubImages, "virtual-darshan") ||
+    findGitHubImage(githubImages, "virtual_darshan") ||
+    findGitHubImage(githubImages, /karumari/i) ||
+    findGitHubImage(githubImages, /deity/i) ||
+    findGitHubImage(githubImages, /amman/i) ||
+    findGitHubImage(githubImages, /hero/i) ||
+    (githubImages && githubImages.length > 0 ? githubImages[0].url : "/virtual_darshan.jpg");
 
   // Try autoplay on mount
   useEffect(() => {
@@ -122,7 +133,7 @@ export default function VirtualDarshan() {
             <div className="corner br" />
             <div className="img-clip">
               <img
-                src="/virtual_darshan.jpg"
+                src={deityImageUrl}
                 alt="Maa Vishnumayadevi — Virtual Darshan"
                 className="deity-img"
                 draggable={false}
