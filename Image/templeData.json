@@ -124,6 +124,22 @@
         "en": "Special friday pooja with Kumkumarchana and Alankaram. Prasadam distribution for all devotees.",
         "ta": "குங்குமார்ச்சனை மற்றும் அலங்காரத்துடன் வெள்ளிக்கிழமை சிறப்பு பூஜை. அனைத்து பக்தர்களுக்கும் பிரசாதம் வழங்கப்படும்."
       }
+    },
+    {
+      "id": 1785685179281,
+      "type": "festival",
+      "title": {
+        "en": "AAdi Thiruvizha",
+        "ta": ""
+      },
+      "date": {
+        "en": "August 7, 8, 9 2026",
+        "ta": ""
+      },
+      "description": {
+        "en": "AAdi month Festival ",
+        "ta": ""
+      }
     }
   ],
   "gallery": [
