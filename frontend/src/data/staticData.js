@@ -21,24 +21,24 @@ export const templeInfo = {
   },
   timings: [
     {
-      day: { en: "Monday – Friday", ta: "திங்கள் – வெள்ளி" },
-      morning: { en: "6:30 AM – 11:00 AM", ta: "காலை 6:30 – 11:00" },
-      evening: { en: "5:00 PM – 8:30 PM", ta: "மாலை 5:00 – 8:30" },
+      day: { en: "Mon, Wed, Thu, Fri", ta: "திங்கள், புதன், வியாழன், வெள்ளி" },
+      morning: { en: "7:00 AM – 10:00 AM", ta: "காலை 7:00 – 10:00" },
+      evening: { en: "6:00 PM – 8:00 PM", ta: "மாலை 6:00 – 8:00" },
+    },
+    {
+      day: { en: "Tuesday", ta: "செவ்வாய்க்கிழமை" },
+      morning: { en: "7:00 AM – 10:00 AM", ta: "காலை 7:00 – 10:00" },
+      evening: { en: "3:00 PM – 8:00 PM", ta: "மாலை 3:00 – 8:00" },
     },
     {
       day: { en: "Saturday", ta: "சனிக்கிழமை" },
-      morning: { en: "6:00 AM – 12:00 PM", ta: "காலை 6:00 – 12:00" },
-      evening: { en: "4:30 PM – 9:00 PM", ta: "மாலை 4:30 – 9:00" },
+      morning: { en: "7:00 AM – 10:00 AM", ta: "காலை 7:00 – 10:00" },
+      evening: { en: "6:00 PM – 8:00 PM", ta: "மாலை 6:00 – 8:00" },
     },
     {
-      day: { en: "Sunday", ta: "ஞாயிற்றுக்கிழமை" },
-      morning: { en: "6:00 AM – 1:00 PM", ta: "காலை 6:00 – 1:00" },
-      evening: { en: "4:00 PM – 9:00 PM", ta: "மாலை 4:00 – 9:00" },
-    },
-    {
-      day: { en: "Public Holidays", ta: "பொது விடுமுறை நாட்கள்" },
-      morning: { en: "6:00 AM – 1:00 PM", ta: "காலை 6:00 – 1:00" },
-      evening: { en: "4:00 PM – 9:00 PM", ta: "மாலை 4:00 – 9:00" },
+      day: { en: "Sunday & Public Holidays", ta: "ஞாயிறு & பொது விடுமுறை நாட்கள்" },
+      morning: { en: "7:00 AM – 10:00 AM", ta: "காலை 7:00 – 10:00" },
+      evening: { en: "6:00 PM – 8:00 PM", ta: "மாலை 6:00 – 8:00" },
     },
   ],
   youtube: "https://youtube.com/@vishnumaya-f8d?si=W5z1qf-KTb86rPWq",
