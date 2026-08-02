@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import App from './App.jsx'
 import VirtualDarshan from './components/VirtualDarshan.jsx'
+import AdminLogin from './components/AdminLogin.jsx'
+import AdminDashboard from './components/AdminDashboard.jsx'
 import { LanguageProvider } from './context/LanguageContext'
 
 const queryClient = new QueryClient()
@@ -17,6 +19,8 @@ createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/virtual-darshan" element={<VirtualDarshan />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
         </BrowserRouter>
       </LanguageProvider>

@@ -1,15 +1,21 @@
 /**
- * templeApi.js — Static data client for the Vishnumayadevi Temple Website.
+ * templeApi.js — Live data client for the Vishnumayadevi Temple Website.
  *
- * This file replaces the backend API calls with static data from `../data/staticData.js`.
+ * This file fetches data directly from GitHub's raw content API (Serverless CMS),
+ * falling back to staticData if the GitHub file doesn't exist yet.
  */
 import { templeInfo, gallery, mainPhotos, events, committee, donation } from "../data/staticData";
 
+const RAW_GITHUB_URL = 'https://raw.githubusercontent.com/HARAR8B1/Vishnumayadevi-Temple/main/Image/templeData.json';
+
+// Fetch the master JSON from GitHub
+async function getGitHubData() {
+  const res = await fetch(`${RAW_GITHUB_URL}?t=${Date.now()}`);
+  if (!res.ok) throw new Error('Not found');
+  return await res.json();
+}
+
 // ─── Image URL Helper ────────────────────────────────────────────────────────
-/**
- * Resolve an image URL so it always points to the correct location.
- * Now it just returns the URL directly (from GitHub or local assets).
- */
 export function resolveImageUrl(url) {
   if (!url) return null;
   return url;
@@ -18,23 +24,57 @@ export function resolveImageUrl(url) {
 // ─── Public APIs ─────────────────────────────────────────────────────────────
 
 export const fetchTempleInfo = async () => {
-  return templeInfo;
+  try {
+    const data = await getGitHubData();
+    return data.templeInfo || templeInfo;
+  } catch {
+    return templeInfo;
+  }
 };
 
 export const fetchGallery = async () => {
-  return gallery;
+  try {
+    const data = await getGitHubData();
+    return data.gallery || gallery;
+  } catch {
+    return gallery;
+  }
 };
 
 export const getPublicMainPhotos = async () => {
-  return mainPhotos;
+  try {
+    const data = await getGitHubData();
+    return data.mainPhotos || mainPhotos;
+  } catch {
+    return mainPhotos;
+  }
 };
 
 export const fetchEvents = async () => {
-  return events;
+  try {
+    const data = await getGitHubData();
+    return data.events || events;
+  } catch {
+    return events;
+  }
 };
 
 export const fetchDonation = async () => {
-  return donation;
+  try {
+    const data = await getGitHubData();
+    return data.donation || donation;
+  } catch {
+    return donation;
+  }
+};
+
+export const getCommittee = async () => {
+  try {
+    const data = await getGitHubData();
+    return data.committee || committee;
+  } catch {
+    return committee;
+  }
 };
 
 export const submitContactForm = async (formData) => {
@@ -45,6 +85,3 @@ export const submitContactForm = async (formData) => {
 // Alias used by ContactForm.jsx
 export const submitContact = submitContactForm;
 
-export const getCommittee = async () => {
-  return committee;
-};

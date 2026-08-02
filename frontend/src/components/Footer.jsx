@@ -90,6 +90,7 @@ export default function Footer() {
         <div className="pt-6 border-t border-saffron/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] sm:text-xs text-cream/50">
           <p className="text-center sm:text-left">© {new Date().getFullYear()} {t.footer.copyright}</p>
           <div className="flex gap-4 sm:gap-6">
+            <a href="/admin/login" className="hover:text-saffron transition-colors">Admin Login</a>
             <a href="#" className="hover:text-saffron transition-colors">{t.footer.privacy}</a>
             <a href="#" className="hover:text-saffron transition-colors">{t.footer.terms}</a>
           </div>
